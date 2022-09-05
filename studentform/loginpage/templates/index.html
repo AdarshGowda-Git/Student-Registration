@@ -1,0 +1,111 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{% static 'scripts/login.js' %}"></script>
+    <link rel="stylesheet" href="static/styles/login.css">
+</head>
+<body>
+<div id="subBoder">
+
+    <div id="img">
+        <img src="{% static 'scripts/images/studentlabel.jpg' %}" alt="Register" style="height:11
+        0px;">
+    </div>
+    <div id="img2">
+        <img src="{% static 'scripts/images/studentimage.jpg' %}" alt="images" style="height: 300px;">
+    </div>
+
+    <form action="/student_registration_save" method="POST" id="registration_form">
+        {% csrf_token %}
+        <div id="details">
+            <label for="registration_num">Student Register Number :</label>&nbsp;&nbsp;
+            <input id="registration_num" name="registration_num" type="text" required pattern="[a-zA-Z0-9]+" placeholder="Enter your register number" maxlength="10"/><br><br>
+
+            <label for="first_name">FirstName :&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;&nbsp;</label>&nbsp;&nbsp;
+            <input type="text" id="first_name" name="first_name" placeholder="Enter your Name" required onkeydown="return /[a-z]/i.test(event.key)" maxlength="15"><br><br>
+
+
+            <label for="last_name">LastName :&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;&nbsp;</label>&nbsp;&nbsp;
+            <input type="text" id="last_name" name="last_name" placeholder="Enter your Last Name" required onkeydown="return /[a-z]/i.test(event.key)" maxlength="15"><br><br>
+
+            <label>Gender :</label> <br>
+            <input type="radio" name="Gender">Male   <br>
+            <input type="radio" name="Gender">Female  <br>
+            <input type="radio" name="Gender">other   <br>
+
+            <label for="email_id">Email :&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>&nbsp; &nbsp; &nbsp;
+            <input type="email" id="email_id" placeholder="Enter your mail id" name="email_id"><br> <br>
+
+            <label for="phone_num">Phone :&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>&nbsp; &nbsp; &nbsp;
+            <input id="phone_num"  type="number" name="phone_num" class="phone" required placeholder="phone number" maxlength="10" > <br> <br>
+
+            <label for="address_id">Address :</label>
+            <textarea name="address_id" id="address_id" cols="60" rows="6" maxlength="200"></textarea> <br> <br>
+
+            <label for="country">Country :</label>
+            <select name="country" id="country">
+                <option value="Country">Select country</option>
+                <option value="Indian">INDIA</option>
+                <option value="America">AMERICA</option>
+                <option value="Srilanka">SRILANKA</option>
+                <option value="Pakisthan">PAKISTHAN</option>
+                <option value="Australia">AUSTRALIA</option>
+
+            </select> <br><br>
+
+            <button type="submit" id="registration_form_button">Submit</button>
+        </div>
+    </form>
+</div>
+</body>
+
+<script>
+    $("#registration_form_button").click(function(e) {
+    e.preventDefault();
+    var first_name = $('#first_name').val();
+    var last_name = $('#last_name').val();
+    var registration_num = $('#registration_num').val();
+    var email_id = $('#email_id').val();
+    var phone_num = $('#phone_num').val();
+    var address_id = $('#address_id').val();
+    var country = $('#country').val();
+
+
+
+    $.ajax({
+
+        type : 'POST', // http method
+        url : "{% url 'loginpage:student_registration_save' %}",  // the endpoint
+        data : {
+           first_name: first_name,
+           last_name: last_name,
+           registration_num: registration_num,
+           email_id: email_id,
+           phone_num: phone_num,
+           address_id: address_id,
+           country: country
+
+        }, // data sent with the post request
+
+        // handle a successful response
+        success : function(response) {
+            console.log(response); // log the returned json to the console
+            console.log("success"); // another sanity check
+            $('#registration_form').trigger("reset");
+            alert(response.success)
+        },
+
+        // handle a non-successful response
+        error : function(response) {
+            alert(response.responseJSON.error)
+        }
+    });
+});
+</script>
+</html>

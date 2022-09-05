@@ -1,0 +1,26 @@
+body{
+    background-color: cornsilk;
+}
+#subBoder{
+    background-color: #021f15;
+    height: 800px;
+    width: 1000px;
+    margin-left: 150px;
+    margin-top: 50px;
+    color: red;
+}
+#img{
+    padding: 20px;
+}
+#img2{
+    float: right;
+    padding-right: 20px;
+    margin-top: 50px;
+}
+#details{
+    padding:20px;
+}
+.submit{
+    margin-left: 260px;
+    color: red;
+}
